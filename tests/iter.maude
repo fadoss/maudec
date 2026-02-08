@@ -1,0 +1,18 @@
+fmod ITER-EXAMPLE is
+	sort Foo .
+
+	ops a b : -> Foo [ctor] .
+	op f : Foo -> Foo [ctor iter] .
+
+	op ex1 : -> Foo .
+	op ex2 : Foo -> Foo .
+	op ex3 : Foo -> Foo .
+
+	var F : Foo .
+
+	eq ex1 = f^3(a) .
+	eq ex2(F) = f^7(F) .
+
+	eq ex3(f^2(F)) = F .
+	eq ex3(F) = F [owise] .
+endfm

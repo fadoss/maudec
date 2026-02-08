@@ -1,0 +1,3 @@
+source = ['tests/unordered-pair.maude']
+
+name_map = { "`{_`,_`}" = 'Pair' }

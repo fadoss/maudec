@@ -1,0 +1,6 @@
+munit MINIMUM-TEST is
+	assertEqual(minimum(1, 2), 1)
+	assertEqual(minimum(2, 1), 1)
+	assertEqual(minimum(100, 2000), 100)
+	assertEqual(minimum(54, 53), 53)
+endu

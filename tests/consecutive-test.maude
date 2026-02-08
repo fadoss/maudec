@@ -1,0 +1,6 @@
+munit CONSECUTIVE is
+  assertEqual(removeConsecutive((mt).OList{Nat<=}), (mt).OList{Nat<=})
+  assertEqual(removeConsecutive(2 2 2 2 4 4 4 2 2 4 3), 2 4 2 4 3)
+  assertEqual(removeConsecutive(2 2 4 2 2), 2 4 2)
+  assertEqual(removeConsecutive(2 4 2), 2 4 2)
+endu

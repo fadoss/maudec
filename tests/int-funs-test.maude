@@ -1,0 +1,6 @@
+munit INT-FUNS-TEST is
+  assertEqual(eeuclid(3, 4), euc(1, -1, 1))
+  assertEqual(eeuclid(9, 6), euc(3, 1, -1))
+  assertEqual(eeuclid(5, 7), euc(1, 3, -2))
+  assertEqual(eeuclid(56, 86), euc(2, 20, -13))
+endu

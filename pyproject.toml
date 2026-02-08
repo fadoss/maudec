@@ -1,0 +1,45 @@
+[project]
+name            = 'maudec'
+version         = '0.1.0'
+description     = 'Experimental Maude compiler'
+license         = 'GPL-3.0-or-later'
+classifiers     = [
+	'Programming Language :: Python :: 3',
+	'Intended Audience :: Science/Research',
+	'Topic :: Scientific/Engineering',
+	'Operating System :: OS Independent',
+]
+requires-python = '>=3.10'
+dependencies    = ['maude >= 1.6.0']
+
+[[project.authors]]
+name  = 'fadoss'
+email = 'fadoss@users.noreply.github.com'
+
+[project.readme]
+content-type = 'text/markdown'
+text = '''# Experimental Maude compiler
+
+Experimental compiler for a subset of Maude to imperative programming
+languages like C++, Rust, Python, and Dafny.
+'''
+
+[project.optional-dependencies]
+regex     = ['regex']
+
+[project.urls]
+"Homepage"      = 'https://github.com/fadoss/maudec'
+"Bug Tracker"   = 'https://github.com/fadoss/maudec/issues'
+"Documentation" = 'https://github.com/fadoss/maudec'
+"Source Code"   = 'https://github.com/fadoss/maudec'
+
+[project.scripts]
+maudec = 'maudec.__main__:main'
+
+[build-system]
+requires      = ['setuptools', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[tool.setuptools]
+packages.find.include = ['maudec*']
+package-data.maudec = ['data/*']

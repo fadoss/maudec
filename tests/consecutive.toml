@@ -1,0 +1,3 @@
+source = ['tests/consecutive.maude']
+
+name_map = { "Stack{Nat}" = 'NatStack', "List{Nat<=}" = 'NatList', "OList{Nat<=}" = 'NatOList', "empty?" = "empty" }

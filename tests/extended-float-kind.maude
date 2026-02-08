@@ -1,0 +1,19 @@
+***
+*** Extended Float sort
+***
+
+fmod EXTENDED-FLOAT is
+	including FLOAT .
+
+	sort Float? .
+	subsort Float < Float? .
+
+	op unknown : -> Float? [ctor] .
+
+	op square : Float? -> Float? .
+
+	var F : Float .
+
+	eq square(unknown) = unknown .
+	eq square(F) = F * F .
+endfm

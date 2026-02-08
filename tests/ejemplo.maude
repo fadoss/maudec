@@ -1,0 +1,71 @@
+*** Los operadores sin argumentos se pueden traducir a constantes (por ejemplo, pi).
+*** Luego hay que tener cuidado de que se usen como tales (el análisis de marcarlo).
+
+fmod A is
+	protecting INT .
+	protecting FLOAT .
+
+	*** Power
+	op pow : Nat Nat -> Nat .
+	op pow : Float Nat -> Float .
+	op square : Nat -> Nat .
+
+	var  F   : Float .
+	vars N M : Nat .
+
+	eq pow(N, 0) = 1 .
+	eq pow(N, s M) = N * pow(N, M) .
+
+	eq pow(F, 0) = 1.0 .
+	eq pow(F, s M) = F * pow(F, M) .
+
+	eq square(N) = N * N .
+
+	*** Is even
+
+	op even : Nat -> Bool .
+	eq even(N) = N rem 2 == 0 .
+
+	*** Fibonnaci
+	op fib : Nat -> Nat .
+
+	eq fib(0) = 1 .
+	eq fib(1) = 1 .
+	eq fib(s s N) = fib(N) + fib(s N) .
+
+	*** Sign
+	op sign : Float -> Float .
+
+	eq sign(0.0) = 0.0 .
+	***eq sign(F) = if F > 0.0 then 1.0 else -1.0 fi .
+	ceq sign(F) = 1.0 if F > 0.0 .
+	ceq sign(F) = -1.0 if F < 0.0 .
+
+	op sign : Int -> Int .
+
+	eq sign(0) = 0 .
+	eq sign(s N) = 1 .
+	eq sign(- N) = -1 .
+
+	*** Pruebas pequeñas
+	op prueba : Nat -> Nat .
+
+	eq prueba(- s N) = N .
+
+	sort Foo .
+
+	op int : Int -> Foo [ctor] .
+	op float : Float -> Foo [ctor] .
+
+	*** Cuadrado de los números
+	op square : Foo -> Foo .
+
+	eq square(int(N)) = int(N * N) .
+	eq square(float(F)) = float(F * F) .
+
+	sort Stack .
+
+	op empty : -> Stack [ctor] .
+	op cons : Nat Stack -> Stack [ctor] .
+
+endfm

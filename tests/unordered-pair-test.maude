@@ -1,0 +1,4 @@
+munit UNORDERED-PAIR-TEST is
+	assertEqual(({1, 2}), ({2, 1}))
+	assertEqual(({1 + 2, 1 * 2}), ({2, 3}))
+endu

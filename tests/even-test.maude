@@ -1,0 +1,10 @@
+munit EVEN-TEST is
+	assertTrue(even1(0))
+	assertTrue(even2(0))
+	assertFalse(even1(1))
+	assertFalse(even2(1))
+	assertTrue(even1(420))
+	assertTrue(even2(420))
+	assertFalse(even1(111))
+	assertFalse(even2(111))
+endu

@@ -1,0 +1,7 @@
+munit PALINDROME is
+	assertTrue(palindrome(nil))
+	assertTrue(palindrome(a a))
+	assertTrue(palindrome(a o a))
+	assertFalse(palindrome(a e))
+	assertFalse(palindrome(a e o))
+endu

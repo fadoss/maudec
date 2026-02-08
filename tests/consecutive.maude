@@ -1,0 +1,24 @@
+load stack.maude
+load olist.maude
+
+mod CONSECUTIVE is
+ pr STACK{Nat} .
+ pr OLIST{Nat<=} .
+
+ var  L : List{Nat<=} .
+ var  S : Stack{Nat} .
+ vars N N' : Nat .
+
+ op removeConsecutive : List{Nat<=} -> List{Nat<=} .
+ eq removeConsecutive(L) = $removeConsecutive(L, mt) .
+
+ op $removeConsecutive : List{Nat<=} Stack{Nat} -> List{Nat<=} .
+ eq $removeConsecutive(mt, S) = mt .
+ eq $removeConsecutive(N L, mt) = N $removeConsecutive(L, push(N, mt)) .
+ eq $removeConsecutive(N L, push(N, S)) = $removeConsecutive(L, push(N, S)) .
+ eq $removeConsecutive(N L, push(N', S)) = N $removeConsecutive(L, push(N, push(N', S))) [owise] .
+endm
+
+eof
+
+red removeConsecutive(mt) .

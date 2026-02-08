@@ -1,0 +1,3 @@
+source = ['tests/stack2.maude']
+
+name_map = { "Stack{Nat}" = 'NatStack', "empty?" = "empty" }

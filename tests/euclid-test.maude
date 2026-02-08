@@ -1,0 +1,7 @@
+munit EUCLIDEAN-TEST is
+	assertEqual($gcd(6, 9), 3)
+	assertEqual($gcd(9, 6), 3)
+	assertEqual($gcd(5, 7), 1)
+	assertEqual($gcd(1, 4), 1)
+	assertEqual($gcd(12, 20), 4)
+endu

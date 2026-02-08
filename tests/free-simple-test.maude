@@ -1,0 +1,16 @@
+munit FREE-SIMPLE-TEST is
+	assertEqual(square(int(2)), int(4))
+	assertEqual(square(float(2.0)), float(4.0))
+	assertFalse(isFloat(int(5)))
+	assertTrue(isFloat(float(5.0)))
+	assertFalse(isFloat(square(int(3))))
+	assertTrue(isFloat(square(float(3.0))))
+	assertEqual(getFloat(float(10.0)), 10.0)
+	assertEqual(getFloat(square(float(10.0))), 100.0)
+	assertEqual(add(int(-1), int(-2)), int(-3))
+	assertEqual(add(float(-1.0), float(-2.0)), float(-3.0))
+	assertTrue(isFloat(add(int(1), float(2.0))))
+	assertEqual(add(int(1), float(2.0)), float(3.0))
+	assertEqual(add(float(2.0), int(1)), float(3.0))
+	assertEqual(nat2float(4), 4.0)
+endu

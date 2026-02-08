@@ -1,0 +1,26 @@
+sload stack
+
+fmod NAT2-STACK is
+ pr STACK{Nat} .
+ 
+ vars N M : Nat .
+ var  S   : Stack{Nat} .
+ 
+ *** Increment the top, reusing the rest
+ op topIncr : Stack{Nat} -> Stack{Nat} .
+ 
+ eq topIncr(mt) = mt .
+ eq topIncr(push(N, S)) = push(s N, S) .
+ 
+ *** Increment all values
+ op incr : Stack{Nat} -> Stack{Nat} .
+ 
+ eq incr(mt) = mt .
+ eq incr(push(N, S)) = push(s N, incr(S)) .
+ 
+ *** Merge top two values (if possible)
+ op merge : Stack{Nat} -> Stack{Nat} .
+ 
+ eq merge(push(N, push(M, S))) = push(N + M, S) .
+ eq merge(S) = S [owise] .
+endfm
