@@ -1,0 +1,11 @@
+munit NAT-STACK is
+ assertNoSort(top(mt))
+ assertEqual(top(push(3, push(4, mt))), 3)
+ assertLeqSort(top(push(3, push(4, mt))), Nat)
+ assertEqual(pop(push(3, push(4, mt))), push(4, mt))
+ assertEqual(top(pop(push(3, push(4, mt)))), 4)
+
+ assertTrue(empty?(mt))
+ assertFalse(empty?(pop(push(3, push(4, mt)))))
+ assertTrue(empty?(pop(pop(push(3, push(4, mt))))))
+endu

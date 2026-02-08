@@ -1,0 +1,19 @@
+munit NAT-FUNS is
+  assertEqual(fib(2), 1)
+  assertEqual(fib(3), 2)
+  assertEqual(fib(4), 3)
+
+  assertEqual(1 !, 1)
+  assertEqual(2 !, 2)
+  assertEqual(3 !, 6)
+
+  assertEqual($gcd(4, 2), 2)
+  assertEqual($gcd(6, 9), 3)
+  assertEqual($gcd(9, 6), 3)
+  assertEqual($gcd(30, 20), 10)
+  assertEqual($gcd(5, 7), 1)
+  assertEqual($gcd(1, 4), 1)
+
+  assertEqual(even1(7), even2(7))
+  assertEqual(even1(70), even2(70))
+endu
