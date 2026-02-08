@@ -23,6 +23,10 @@ def get_target(target, out=sys.stdout):
 			from .generators.python import PythonGenerator
 			return PythonGenerator(out=out)
 
+		case 'dafny':
+			from .generators.dafny import DafnyGenerator
+			return DafnyGenerator(out=out)
+
 
 def compile(mod: 'maude.Module', filter=None, out=None, name_map=None, generator=None, tests=()):
 	"""Compile a Maude module to the target language"""

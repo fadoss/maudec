@@ -101,7 +101,7 @@ def main():
 	parser.add_argument('--metamodule', '-M', help='Select a metamodule on the current module')
 	parser.add_argument('--analyze', '-a', help='Only analyze the input file', action='store_true')
 	parser.add_argument('--filter', help='Filter which functions to compile with a regular expression')
-	parser.add_argument('--target', '-t', help='Target language', choices=['cpp', 'rust', 'ast', 'py'], default='cpp')
+	parser.add_argument('--target', '-t', help='Target language', choices=['cpp', 'rust', 'ast', 'py', 'dafny'], default='cpp')
 	parser.add_argument('--tests', help='Path to a MUnit test file')
 
 	args = parser.parse_args()
