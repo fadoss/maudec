@@ -22,6 +22,17 @@ class DotGenerator:
 		self.final_out = out
 		self.out = out
 
+	@staticmethod
+	def _expandable(dtype):
+		"""Check whether a type is expandable"""
+
+		if isinstance(dtype, type):
+			return issubclass(dtype, RECURSIVE_TYPES)
+
+		if args := typing.get_args(dtype):
+			arg = args[0] if isinstance(args[0], type) else typing.get_origin(args[0])
+			return issubclass(arg, RECURSIVE_TYPES)
+
 	def generate(self, node: ast.Node, out, parent='HEAD', label=''):
 		"""Generate GraphViz's dot code"""
 
@@ -38,12 +49,7 @@ class DotGenerator:
 		is_first = True
 
 		# Decide which arguments are expandable
-		expandable = [
-			typing.get_args(data.type) and
-		 	issubclass(typing.get_args(data.type)[0], RECURSIVE_TYPES) or
-			isinstance(data.type, type) and issubclass(data.type, RECURSIVE_TYPES)
-		 	for data in node.__dataclass_fields__.values()
-		]
+		expandable = tuple(self._expandable(field.type) for field in node.__dataclass_fields__.values())
 
 		# Non-expandable values
 		for (name, data), expands in zip(node.__dataclass_fields__.items(), expandable):

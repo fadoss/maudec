@@ -9,6 +9,7 @@ from multiprocessing import Process, Queue
 from traceback import print_exception, format_exception
 import subprocess
 import os
+import shutil
 
 
 class CppCompiler:
@@ -17,6 +18,10 @@ class CppCompiler:
 	CXX = os.environ.get('CXX', 'c++')
 	FNAME = 'output.cc'
 	LANG = 'cpp'
+
+	@staticmethod
+	def available():
+		return shutil.which(self.CXX) is not None
 
 	def build(self, source, root, quiet, tests=False):
 		output = subprocess.PIPE if quiet else None
@@ -36,6 +41,10 @@ class RustCompiler:
 	FNAME = 'output.rs'
 	LANG = 'rust'
 
+	@staticmethod
+	def available():
+		return shutil.which('rustc') is not None
+
 	def build(self, source, root, quiet, tests=False):
 		output = subprocess.PIPE if quiet else None
 		build_type = '--test' if tests else '--crate-type=lib'
@@ -54,6 +63,10 @@ class PythonCompiler:
 	FNAME = 'output.py'
 	LANG = 'py'
 
+	@staticmethod
+	def available():
+		return shutil.which('python') is not None
+
 	def build(self, source, root, quiet, tests=False):
 		output = subprocess.PIPE if quiet else None
 		ret = subprocess.run(('python', '-c', 'import output'), stdout=output, stderr=output, cwd=root)
@@ -61,8 +74,30 @@ class PythonCompiler:
 
 	def run(self, root, quiet):
 		output = subprocess.PIPE if quiet else None
-		ret = subprocess.run(('python', 'output.py'), stdout=output, stderr=output, cwd=root)
+		ret = subprocess.run(('python', self.FNAME), stdout=output, stderr=output, cwd=root)
 		return ret.returncode == 0
+
+
+class DafnyCompiler:
+	"""Compiler connector for Dafny"""
+
+	FNAME = 'output.dfy'
+	LANG = 'dafny'
+
+	@staticmethod
+	def available():
+		return shutil.which('dafny') is not None
+
+	def build(self, source, root, quiet, tests=False):
+		output = subprocess.PIPE if quiet else None
+		ret = subprocess.run(('dafny', 'resolve', source), stdout=output, stderr=output, cwd=root)
+		return ret.returncode == 0
+
+	def run(self, root, quiet):
+		output = subprocess.PIPE if quiet else None
+		ret = subprocess.run(('dafny', 'verify', self.FNAME), stdout=output, stderr=output, cwd=root)
+		return ret.returncode == 0
+
 
 def _run_test(test, tmpdir, queue, compiler, quiet, with_tests):
 	"""Run a test in a separte process"""
@@ -119,6 +154,9 @@ def get_compiler(lang: str):
 		case 'py':
 			return PythonCompiler
 
+		case 'dafny':
+			return DafnyCompiler
+
 		case _:
 			return CppCompiler
 
@@ -157,7 +195,7 @@ def main():
 
 	parser = argparse.ArgumentParser(description='Test the Maude to imperative language translation')
 	parser.add_argument('test', help='Tests to test', nargs='*', type=Path)
-	parser.add_argument('--target', '-t', help='Target language', choices=('cpp', 'rust', 'py'))
+	parser.add_argument('--target', '-t', help='Target language', choices=('cpp', 'rust', 'py', 'dafny'))
 	parser.add_argument('--quiet', '-q', help='Do not show compiler output', action='store_true')
 	parser.add_argument('--no-test', help='Do not run tests', action='store_true')
 
@@ -169,9 +207,18 @@ def main():
 		tests = [p for p in Path('tests').glob('*.maude') if not p.name.endswith('-test.maude')]
 
 	# Try with all compiler if none is given
-	compilers = (get_compiler(args.target),) if args.target else (CppCompiler, RustCompiler, PythonCompiler)
+	compilers = (get_compiler(args.target),) if args.target else (CppCompiler, RustCompiler, PythonCompiler, DafnyCompiler)
 
-	run_tests(tests, compilers, args.quiet, not args.no_test)
+	# Remove those compilers that are not available
+	avail_compilers = []
+
+	for compiler in compilers:
+		if not compiler.available():
+			print(f'⚠️ Warning: removing compiler for {compiler.LANG} because it is not available.')
+		else:
+			avail_compilers.append(compiler)
+
+	run_tests(tests, avail_compilers, args.quiet, not args.no_test)
 
 
 if __name__ == '__main__':

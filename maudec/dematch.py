@@ -69,10 +69,19 @@ def depattern(pattern: ast.Pattern, arg: ast.Expr, varmap: dict[ast.Variable, as
 						raise ValueError('pattern not allowed')
 
 					if k == mult_indices[0]:
+						# Index of the next position in the sequence
+						end = ast.Call('-', (
+							ast.SequenceLength(arg),
+							# The number of elements after the current one,
+							# taking the next subslices as empty
+							ast.Constant(len(args) - len(mult_indices) - k, NAT_TYPE)),
+							etype=NAT_TYPE, builtin=True,
+						)
+
 						varmap[subpattern.name] = ast.SequenceSlice(
 							arg,
 							ast.Constant(k, NAT_TYPE),
-							ast.Constant(len(args) - len(mult_indices) - k + 1, NAT_TYPE)
+							end,
 						)
 
 
