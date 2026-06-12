@@ -1,0 +1,15 @@
+***
+***	<comment from="gemini-3-flash-preview">
+***	The efficiency of the code is improved by replacing the conditional equation (ceq) with a direct mapping to the built-in 'min' function from the NAT module. In Maude, built-in functions for NAT are implemented in the core engine (C++), making them significantly faster than user-defined conditional logic. Additionally, replacing a conditional equation with an unconditional one (eq) reduces the overhead of the rewrite engine during term reduction while maintaining the original commutative property and semantics.
+***	</comment>
+***
+
+fmod MINIMUM is
+	protecting NAT .
+
+	op minimum : Nat Nat -> Nat [comm] .
+
+	vars M N : Nat .
+
+	eq minimum(M, N) = min(M, N) .
+endfm
